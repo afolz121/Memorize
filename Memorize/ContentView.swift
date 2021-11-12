@@ -22,9 +22,11 @@ import SwiftUI
 struct CardView: View {
     var body: some View {
         ZStack{
-            RoundedRectangle(cornerRadius: 25.0)
+            RoundedRectangle(cornerRadius: 20.0)
+                .fill()
+                .foregroundColor(.white)
+            RoundedRectangle(cornerRadius: 20.0)
                 .stroke(lineWidth: 3.0)
-                .foregroundColor(Color/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
             Text("✈️")
                 .foregroundColor(Color.blue)
                 .font(.largeTitle)
@@ -36,7 +38,6 @@ struct ContentView: View {
     var body: some View {
         HStack{
             CardView()
-                
             CardView()
             CardView()
             CardView()
@@ -51,6 +52,10 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .preferredColorScheme(.dark)
+        ContentView()
+            .preferredColorScheme(.light)
+            
     }
 }
 
