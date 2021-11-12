@@ -20,16 +20,22 @@ import SwiftUI
  */
 
 struct CardView: View {
+    var isFaceUp: Bool = false //set the default option of isfaceUp as false to turn cards face down.
     var body: some View {
         ZStack{
-            RoundedRectangle(cornerRadius: 20.0)
-                .fill()
-                .foregroundColor(.white)
-            RoundedRectangle(cornerRadius: 20.0)
-                .stroke(lineWidth: 3.0)
-            Text("✈️")
-                .foregroundColor(Color.blue)
-                .font(.largeTitle)
+            if isFaceUp {
+                RoundedRectangle(cornerRadius: 20.0)
+                    .fill()
+                    .foregroundColor(.white)
+                RoundedRectangle(cornerRadius: 20.0)
+                    .stroke(lineWidth: 3.0)
+                Text("✈️")
+                    .foregroundColor(Color.blue)
+                    .font(.largeTitle)
+            } else {
+                RoundedRectangle(cornerRadius: 20.0)
+                    .fill()
+            }
         }
     }
 }
@@ -43,6 +49,7 @@ struct ContentView: View {
             CardView()
         }
             .padding(.horizontal)
+            .foregroundColor(.red)
     }
 }
 
