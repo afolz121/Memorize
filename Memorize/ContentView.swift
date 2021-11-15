@@ -19,24 +19,24 @@ import SwiftUI
     
  */
 
+
+
 struct CardView: View {
-    var isFaceUp: Bool = false //set the default option of isfaceUp as false to turn cards face down.
+    @State var isFaceUp: Bool = false //set the default option of isfaceUp as false to turn cards face down. @State makes a pointer
     var body: some View {
         ZStack{
+            let shape = RoundedRectangle(cornerRadius: 20.0) //make shape a constant with let
             if isFaceUp {
-                RoundedRectangle(cornerRadius: 20.0)
-                    .fill()
-                    .foregroundColor(.white)
-                RoundedRectangle(cornerRadius: 20.0)
-                    .stroke(lineWidth: 3.0)
-                Text("✈️")
-                    .foregroundColor(Color.blue)
-                    .font(.largeTitle)
+                shape.fill().foregroundColor(.white)
+                shape.stroke(lineWidth: 3.0)
+                Text("✈️").font(.largeTitle)
             } else {
-                RoundedRectangle(cornerRadius: 20.0)
-                    .fill()
+                shape.fill()
             }
         }
+        .onTapGesture(perform: {
+            isFaceUp = !isFaceUp
+        })
     }
 }
 
