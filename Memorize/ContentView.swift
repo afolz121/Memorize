@@ -22,14 +22,15 @@ import SwiftUI
 
 
 struct CardView: View {
-    @State var isFaceUp: Bool = false //set the default option of isfaceUp as false to turn cards face down. @State makes a pointer
+    var content: String
+    @State var isFaceUp: Bool = true //set the default option of isfaceUp as false to turn cards face down. @State makes a pointer and overwrites the 'state' of the variable.
     var body: some View {
         ZStack{
             let shape = RoundedRectangle(cornerRadius: 20.0) //make shape a constant with let
             if isFaceUp {
                 shape.fill().foregroundColor(.white)
                 shape.stroke(lineWidth: 3.0)
-                Text("✈️").font(.largeTitle)
+                Text(content).font(.largeTitle)
             } else {
                 shape.fill()
             }
@@ -40,17 +41,29 @@ struct CardView: View {
     }
 }
 
+
+/*
+ 
+ ForEach is a for loop
+ must have an identifier
+ the identifier here is id: \.self, which means the identifier
+ is just the emojis array itself.
+ Not the best thing to do here, especially if there are duplicate emoji in the array
+ */
+
 struct ContentView: View {
+    var emojis: [String] = ["🚗", "🚑", "🚓", "✈️", "🚜"]
     var body: some View {
         HStack{
-            CardView()
-            CardView()
-            CardView()
-            CardView()
+            ForEach(emojis, id: \.self, content: { emoji in
+                CardView(content: emoji)
+            })
         }
             .padding(.horizontal)
             .foregroundColor(.red)
+        
     }
+    
 }
 
 
