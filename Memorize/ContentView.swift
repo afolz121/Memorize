@@ -68,9 +68,10 @@ struct ContentView: View {
             
             HStack {
                 removeButton
-                Spacer()
+                Spacer(minLength: 20.0)
                 addButton
             }
+            .font(.largeTitle)
             .padding(.horizontal)
         }
             .padding(.horizontal)
@@ -78,17 +79,14 @@ struct ContentView: View {
     }
     var addButton: some View {
         Button(action: {emoji_count += 1}, label: {
-            VStack {
-                Text("Add")
-                Text("Card")
-            }
+            Image(systemName: "plus.circle")
+                .frame(width: 5.0, height: 5.0)
         })
     }
     var removeButton: some View {
         Button(action: {emoji_count -= 1}, label: {
             VStack {
-                Text("Remove")
-                Text("Card")
+                Image(systemName: "minus.circle")
             }
         })
     }
