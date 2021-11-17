@@ -46,25 +46,54 @@ struct CardView: View {
  
  ForEach is a for loop
  must have an identifier
- the identifier here is id: \.self, which means the identifier
+ the identifier first here is id: \.self, which means the identifier
  is just the emojis array itself.
  Not the best thing to do here, especially if there are duplicate emoji in the array
  */
 
 struct ContentView: View {
-    var emojis: [String] = ["🚗", "🚑", "🚓", "✈️", "🚜"]
+    var emojis: [String] = ["🚗", "🚑", "🚓", "✈️", "🚜", "🏎",
+                            "🚕", "🚀", "🚌", "🛺", "🚔", "🛸",
+                            "🚁", "🚲", "🛴", "🛰", "🚎", "🚨",
+                            "🚆", "🚛", "🚤", "⛵️", "🎡", "🚦"]
+    @State var emoji_count: Int = 4
+                            
     var body: some View {
-        HStack{
-            ForEach(emojis, id: \.self, content: { emoji in
-                CardView(content: emoji)
-            })
+        VStack {
+            HStack{
+                ForEach(emojis[0..<emoji_count], id: \.self) { emoji in
+                    CardView(content: emoji)
+                }
+            }
+            
+            HStack {
+                removeButton
+                Spacer()
+                addButton
+            }
+            .padding(.horizontal)
         }
             .padding(.horizontal)
             .foregroundColor(.red)
-        
     }
-    
+    var addButton: some View {
+        Button(action: {emoji_count += 1}, label: {
+            VStack {
+                Text("Add")
+                Text("Card")
+            }
+        })
+    }
+    var removeButton: some View {
+        Button(action: {emoji_count -= 1}, label: {
+            VStack {
+                Text("Remove")
+                Text("Card")
+            }
+        })
+    }
 }
+
 
 
 
