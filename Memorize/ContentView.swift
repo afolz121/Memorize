@@ -19,8 +19,6 @@ import SwiftUI
     
  */
 
-
-
 struct CardView: View {
     var content: String
     @State var isFaceUp: Bool = true //set the default option of isfaceUp as false to turn cards face down. @State makes a pointer and overwrites the 'state' of the variable.
@@ -29,7 +27,7 @@ struct CardView: View {
             let shape = RoundedRectangle(cornerRadius: 20.0) //make shape a constant with let
             if isFaceUp {
                 shape.fill().foregroundColor(.white)
-                shape.stroke(lineWidth: 3.0)
+                shape.strokeBorder(lineWidth: 3.0)
                 Text(content).font(.largeTitle)
             } else {
                 shape.fill()
@@ -51,40 +49,54 @@ struct CardView: View {
  Not the best thing to do here, especially if there are duplicate emoji in the array
  */
 
+//lazyview grid is lazy about accessing the body vars for the views that actually appear on screen
+
 struct ContentView: View {
     var emojis: [String] = ["🚗", "🚑", "🚓", "✈️", "🚜", "🏎",
                             "🚕", "🚀", "🚌", "🛺", "🚔", "🛸",
                             "🚁", "🚲", "🛴", "🛰", "🚎", "🚨",
                             "🚆", "🚛", "🚤", "⛵️", "🎡", "🚦"]
-    @State var emoji_count: Int = 4
+    @State var emoji_count: Int = 24
                             
     var body: some View {
         VStack {
-            HStack{
-                ForEach(emojis[0..<emoji_count], id: \.self) { emoji in
-                    CardView(content: emoji)
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+                    ForEach(emojis[0..<emoji_count], id: \.self) { emoji in
+                        CardView(content: emoji)
+                            .aspectRatio(2/3, contentMode: .fit)
+                    }
+                
                 }
             }
+            .foregroundColor(.red)
+            Spacer()
             
             HStack {
                 removeButton
-                Spacer(minLength: 20.0)
+                Spacer()
                 addButton
             }
             .font(.largeTitle)
             .padding(.horizontal)
         }
             .padding(.horizontal)
-            .foregroundColor(.red)
     }
     var addButton: some View {
-        Button(action: {emoji_count += 1}, label: {
+        Button(action: {
+            if emoji_count < emojis.count {
+                emoji_count += 1}
+        }, label: {
             Image(systemName: "plus.circle")
                 .frame(width: 5.0, height: 5.0)
         })
     }
     var removeButton: some View {
-        Button(action: {emoji_count -= 1}, label: {
+        Button(action: {
+            if emoji_count > 1 {
+                emoji_count -= 1}
+            
+        }, label: {
             VStack {
                 Image(systemName: "minus.circle")
             }
