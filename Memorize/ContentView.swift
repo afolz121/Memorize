@@ -5,6 +5,8 @@
 //  Created by Andrew Folz on 11/9/21.
 //
 
+//view preview of UI with editor / canvas
+
 import SwiftUI
 
 // struct short for data structure
@@ -56,12 +58,12 @@ struct ContentView: View {
                             "🚕", "🚀", "🚌", "🛺", "🚔", "🛸",
                             "🚁", "🚲", "🛴", "🛰", "🚎", "🚨",
                             "🚆", "🚛", "🚤", "⛵️", "🎡", "🚦"]
-    @State var emoji_count: Int = 24
+    @State var emoji_count: Int = 20
                             
     var body: some View {
         VStack {
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 70))]) {
                     ForEach(emojis[0..<emoji_count], id: \.self) { emoji in
                         CardView(content: emoji)
                             .aspectRatio(2/3, contentMode: .fit)
@@ -70,37 +72,8 @@ struct ContentView: View {
                 }
             }
             .foregroundColor(.red)
-            Spacer()
-            
-            HStack {
-                removeButton
-                Spacer()
-                addButton
-            }
-            .font(.largeTitle)
-            .padding(.horizontal)
         }
-            .padding(.horizontal)
-    }
-    var addButton: some View {
-        Button(action: {
-            if emoji_count < emojis.count {
-                emoji_count += 1}
-        }, label: {
-            Image(systemName: "plus.circle")
-                .frame(width: 5.0, height: 5.0)
-        })
-    }
-    var removeButton: some View {
-        Button(action: {
-            if emoji_count > 1 {
-                emoji_count -= 1}
-            
-        }, label: {
-            VStack {
-                Image(systemName: "minus.circle")
-            }
-        })
+        .padding(.horizontal)
     }
 }
 
