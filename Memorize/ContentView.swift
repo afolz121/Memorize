@@ -22,22 +22,18 @@ import SwiftUI
  */
 
 struct CardView: View {
-    var content: String
-    @State var isFaceUp: Bool = true //set the default option of isfaceUp as false to turn cards face down. @State makes a pointer and overwrites the 'state' of the variable.
+    let card: MemoryGame<String>.Card
     var body: some View {
         ZStack{
             let shape = RoundedRectangle(cornerRadius: 20.0) //make shape a constant with let
-            if isFaceUp {
+            if card.isFaceUp {
                 shape.fill().foregroundColor(.white)
                 shape.strokeBorder(lineWidth: 3.0)
-                Text(content).font(.largeTitle)
+                Text(card.content).font(.largeTitle)
             } else {
                 shape.fill()
             }
         }
-        .onTapGesture(perform: {
-            isFaceUp = !isFaceUp
-        })
     }
 }
 
@@ -54,25 +50,21 @@ struct CardView: View {
 //lazyview grid is lazy about accessing the body vars for the views that actually appear on screen
 
 struct ContentView: View {
-    var emojis: [String] = ["🚗", "🚑", "🚓", "✈️", "🚜", "🏎",
-                            "🚕", "🚀", "🚌", "🛺", "🚔", "🛸",
-                            "🚁", "🚲", "🛴", "🛰", "🚎", "🚨",
-                            "🚆", "🚛", "🚤", "⛵️", "🎡", "🚦"]
-    @State var emoji_count: Int = 20
-                            
+    @ObservedObject var viewModel: EmojiMemoryGame
     var body: some View {
-        VStack {
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 70))]) {
-                    ForEach(emojis[0..<emoji_count], id: \.self) { emoji in
-                        CardView(content: emoji)
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+                    ForEach(viewModel.cards) { card in
+                        CardView(card: card)
                             .aspectRatio(2/3, contentMode: .fit)
+                            .onTapGesture {
+                                viewModel.choose(card)
+                            }
                     }
                 
                 }
             }
             .foregroundColor(.red)
-        }
         .padding(.horizontal)
     }
 }
@@ -83,9 +75,10 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let game = EmojiMemoryGame()
+        ContentView(viewModel: game)
             .preferredColorScheme(.dark)
-        ContentView()
+        ContentView(viewModel: game)
             .preferredColorScheme(.light)
             
     }
