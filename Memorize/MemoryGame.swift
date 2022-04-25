@@ -24,28 +24,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     }
     
     private var indexOfTheOneAndOnlyFaceUpCard: Int? {
-        get {
-            var faceUpCardIndices = [Int]()
-            for index in cards.indices {
-                if cards[index].isFaceUp {
-                    faceUpCardIndices.append(index)
-                }
-            }
-            if faceUpCardIndices.count == 1 {
-                return faceUpCardIndices.first
-            } else {
-                return nil
-        }
-    }
-        set {
-            for index in cards.indices {
-                if index != newValue {
-                    cards[index].isFaceUp = false
-                } else {
-                    cards[index].isFaceUp = true
-                }
-            }
-        }
+        get { cards.indices.filter({cards[$0].isFaceUp}).oneAndOnly }
+        set { cards.indices.forEach({cards[$0].isFaceUp = ($0 == newValue)}) }
     }
     
     init(numberOfPairsOfCards: Int, createCardContent: (Int) -> CardContent) {
@@ -80,6 +60,18 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
         //chosenCard.isFaceUp.toggle()
         //print("\(cards)")
+    }
+}
+
+//extension are added methods of classes
+
+extension Array {
+    var oneAndOnly: Element? {
+        if self.count == 1 {
+            return self.first
+        } else {
+            return nil
+        }
     }
 }
 
