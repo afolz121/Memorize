@@ -4,13 +4,11 @@
 //
 //  Created by Andrew Folz on 12/21/21.
 //
-
 import SwiftUI
 
 // step two is view model
 // job is to be the intermediary between our view and our model
 // so it needs to have a connection between the view and the model .
-
 class EmojiMemoryGame: ObservableObject {
     typealias Card = MemoryGame<String>.Card
     //static means it's 'global' but its within this class only
@@ -24,7 +22,7 @@ class EmojiMemoryGame: ObservableObject {
     // private means only the view model's code itself can see the model
     // protects model from any view that is trying to alter the view model
     // private(set) means views can see the model but can't change it
-    @Published private(set) var model: MemoryGame<String> =
+    @Published private(set) var model =
         MemoryGame<String>(numberOfPairsOfCards: 8) {pairIndex in
             EmojiMemoryGame.emojis[pairIndex]}
     
@@ -39,5 +37,3 @@ class EmojiMemoryGame: ObservableObject {
         model.choose(card)
     }
 }
-
-

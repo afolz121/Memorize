@@ -4,15 +4,12 @@
 //
 //  Created by Andrew Folz on 11/9/21.
 //
-
 //view preview of UI with editor / canvas
-
 import SwiftUI
 
 // struct short for data structure
 // or a collection of variables.
 // you can also have functions in structs.
-
 // view means it behaves like a View struct
 /* All View structs have a function called .padding()
     padding means create a boundary around the text
@@ -22,9 +19,9 @@ import SwiftUI
  */
 
 struct CardView: View {
-    private let card: EmojiMemoryGame.Card
+    let card: EmojiMemoryGame.Card
     
-    init (_ card: EmojiMemoryGame.Card) {
+    init(_ card: EmojiMemoryGame.Card) {
         self.card = card
     }
     
@@ -38,7 +35,7 @@ struct CardView: View {
             } else if card.isMatched {
                 shape.opacity(0)
             } else {
-                
+                shape.fill()
             }
         }
     }
@@ -54,7 +51,6 @@ struct CardView: View {
  */
 
 //lazyview grid is lazy about accessing the body vars for the views that actually appear on screen
-
 struct EmojiMemoryGameView: View {
     @ObservedObject var game: EmojiMemoryGame
     var body: some View {
