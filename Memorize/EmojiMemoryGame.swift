@@ -23,7 +23,7 @@ class EmojiMemoryGame: ObservableObject {
     // protects model from any view that is trying to alter the view model
     // private(set) means views can see the model but can't change it
     @Published private(set) var model =
-        MemoryGame<String>(numberOfPairsOfCards: 8) {pairIndex in
+        MemoryGame<String>(numberOfPairsOfCards: 7) {pairIndex in
             EmojiMemoryGame.emojis[pairIndex]}
     
     var cards: Array<Card> {
