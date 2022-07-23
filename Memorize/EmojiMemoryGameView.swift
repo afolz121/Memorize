@@ -66,23 +66,39 @@ struct CardView: View {
 //lazyview grid is lazy about accessing the body vars for the views that actually appear on screen
 struct EmojiMemoryGameView: View {
     @ObservedObject var game: EmojiMemoryGame
+    
     var body: some View {
-        AspectVGrid(items: game.cards, aspectRatio: 2/3, content: { card in
+        VStack {
+            gameBody
+            shuffle
+        }
+        .padding()
+    }
+    
+    var gameBody: some View {
+        AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
             if card.isMatched && !card.isFaceUp {
-                Rectangle().opacity(0)
+                Color.clear
             } else {
                 CardView(card)
                     .padding(4)
                     .onTapGesture {
-                        game.choose(card)
+                        withAnimation {
+                            game.choose(card)
+                        }
                     }
             }
-        })
-            .foregroundColor(.red)
-        .padding(.horizontal)
+        }
+        .foregroundColor(.red)
+    }
+    var shuffle: some View {
+        Button("Shuffle") {
+            withAnimation {
+                game.shuffle()
+            }
+        }
     }
 }
-
 
 
 struct ContentView_Previews: PreviewProvider {

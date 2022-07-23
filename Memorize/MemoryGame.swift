@@ -37,6 +37,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             cards.append(Card(content: content, id: pairIndex * 2))
             cards.append(Card(content: content, id: pairIndex * 2 + 1))
         }
+        cards.shuffle()
         
     }
     // create array of Cards which will be a bunch of struct cards.
@@ -61,7 +62,11 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         //chosenCard.isFaceUp.toggle()
         //print("\(cards)")
     }
+    mutating func shuffle() {
+        cards.shuffle()
+    }
 }
+
 
 //extension are added methods of classes
 
